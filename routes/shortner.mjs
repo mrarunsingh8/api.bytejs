@@ -1,6 +1,7 @@
 import { Router } from "express";
 import ShortnerModel from "../schemas/ShortnerModel.mjs";
 import { nanoid } from "nanoid";
+import redis from "../config/redis.mjs";
 
 const shortnerRouter = Router();
 
@@ -27,6 +28,7 @@ shortnerRouter.post('/', async (req, res) => {
             const shortUrl = nanoid(6);
             const newUrl = new ShortnerModel({ url, shortUrl });
             await newUrl.save();
+            redis.set(shortUrl, url);
             res.status(201).json(newUrl);
         } catch (err) {
             res.status(500).json({ message: 'Error creating short url', error: err.message });
