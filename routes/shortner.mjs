@@ -2,6 +2,7 @@ import { Router } from "express";
 import ShortnerModel from "../schemas/ShortnerModel.mjs";
 import { nanoid } from "nanoid";
 import redis from "../config/redis.mjs";
+import QRCode from "qrcode";
 
 const shortnerRouter = Router();
 
@@ -34,6 +35,15 @@ shortnerRouter.post('/', async (req, res) => {
             res.status(500).json({ message: 'Error creating short url', error: err.message });
         }
     }
+});
+
+shortnerRouter.get('/:id/qrcode', async (req, res) => {
+    QRCode.toDataURL(`https://re.bytejs.tech/${req.params.id}`, (err, url) => {
+        if (err) {
+            return res.status(500).json({ message: 'Error generating QR code', error: err.message });
+        }
+        res.status(200).json({ url: url });
+    });
 });
 
 export default shortnerRouter;
