@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoDB from './config/mongoDB.mjs';
 import shortnerRouter from './routes/shortner.mjs';
+import qrRouter from './routes/qr.mjs';
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/shortner', shortnerRouter);
+app.use('/qr', qrRouter);
 
 app.listen(process.env.PORT, () => {
     mongoDB.connect();
