@@ -37,8 +37,8 @@ shortnerRouter.post('/', async (req, res) => {
     }
 });
 
-shortnerRouter.get('/:id/qrcode', async (req, res) => {
-    QRCode.toDataURL(`https://re.bytejs.tech/${req.params.id}`, (err, url) => {
+shortnerRouter.get('/:shortid/qrcode', async (req, res) => {
+    QRCode.toDataURL(`https://re.bytejs.tech/${req.params.shortid}`, (err, url) => {
         if (err) {
             return res.status(500).json({ message: 'Error generating QR code', error: err.message });
         }
