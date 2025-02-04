@@ -21,6 +21,10 @@ app.get('/', (req, res) => {
 app.use('/shortner', shortnerRouter);
 app.use('/qr', qrRouter);
 
-app.listen(process.env.PORT, () => {
-    mongoDB.connect();
+mongoDB.connect().then(() => {
+    app.listen(process.env.PORT, () => {
+        console.log(`Server is running on port ${process.env.PORT}`);
+    });
+}).catch(err => {
+    console.error('Failed to connect to the database', err);
 });
