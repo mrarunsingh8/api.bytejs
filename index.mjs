@@ -6,6 +6,8 @@ import qrRouter from './routes/qr.mjs';
 
 const app = express();
 
+app.disable('x-powered-by');
+
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
