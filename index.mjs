@@ -8,9 +8,20 @@ const app = express();
 
 app.disable('x-powered-by');
 
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? ['https://bytejs.tech', 'https://re.bytejs.tech'] 
+  : ['http://localhost:8000'];
+
 app.use(cors({
-    origin: '*',
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'), false);
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+    credentials: true,
 }));
 
 app.use(express.json());
