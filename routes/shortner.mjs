@@ -27,7 +27,7 @@ shortnerRouter.get('/:shortid', async (req, res) => {
         return res.status(404).json({ message: 'URL not found' });
     }
     redis.set(shortid, shortUrl.url);
-    res.status(200).json(shortUrl);
+    return res.status(200).json(shortUrl);
 });
 
 shortnerRouter.post('/', async (req, res) => {
