@@ -2,7 +2,14 @@ import mongoose from "mongoose";
 
 
 const schema = new mongoose.Schema({
-    url: String,
+    url: {
+        type: String,
+        required: true,
+        validator: function (v) {
+            return validator.isURL(v);
+        },
+        message: props => `${props.value} is not a valid URL`
+    },
     shortUrl: String,
     createdAt: { type: Date, default: Date.now }
 });

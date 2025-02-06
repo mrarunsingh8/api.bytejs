@@ -16,6 +16,20 @@ shortnerRouter.get('/', async (req, res) => {
 
 });
 
+shortnerRouter.get('/:shortid', async (req, res) => {
+    const { shortid } = req.params;
+    const url = await redis.get(shortid);
+    if (url) {
+        return res.status(200).json({ url });
+    }
+    const shortUrl = await ShortnerModel.findOne({ shortUrl: shortid });
+    if (!shortUrl) {
+        return res.status(404).json({ message: 'URL not found' });
+    }
+    redis.set(shortid, shortUrl.url);
+    res.status(200).json(shortUrl);
+});
+
 shortnerRouter.post('/', async (req, res) => {
     let { url } = req.body;
     if (!url) {
