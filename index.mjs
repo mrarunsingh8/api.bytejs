@@ -37,4 +37,6 @@ app.use('/qr', qrRouter);
 mongoDB.connect().then(() => {
     app.listen(process.env.PORT);
 }).catch(err => {
+    console.error(err);
+    process.exit(1);
 });
