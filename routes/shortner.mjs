@@ -23,6 +23,7 @@ shortnerRouter.get('/:shortid', async (req, res) => {
         return res.status(200).json({ url });
     }
     const shortUrl = await ShortnerModel.findOne({ shortUrl: shortid });
+    
     if (!shortUrl) {
         return res.status(404).json({ message: 'URL not found' });
     }
