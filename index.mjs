@@ -9,12 +9,12 @@ const app = express();
 app.disable('x-powered-by');
 
 const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? ['https://bytejs.tech', 'https://re.bytejs.tech'] 
-  : ['http://localhost:8000'];
+    ? [/^https:\/\/.*\.bytejs\.tech$/]
+    : ['http://localhost:8000'];
 
 app.use(cors({
     origin: function (origin, callback) {
-        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        if (!origin || allowedOrigins.some(pattern => pattern instanceof RegExp ? pattern.test(origin) : pattern === origin)) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'), false);
